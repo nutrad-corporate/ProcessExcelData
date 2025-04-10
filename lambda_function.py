@@ -7,11 +7,12 @@ s3 = boto3.client('s3')
 
 def lambda_handler(event, context):
     try:
-        # Get bucket and object key from the event
+        print("Lamda sterted")
         bucket = event['Records'][0]['s3']['bucket']['name']
         key = event['Records'][0]['s3']['object']['key']
-        
-        # Fetch the Excel file from S3
+        print(bucket)
+        print(key)
+      
         response = s3.get_object(Bucket=bucket, Key=key)
         file_content = response['Body'].read()
 
