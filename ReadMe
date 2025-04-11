@@ -1,1 +1,10 @@
-Readme
+This project is dependent on below packages make sure these package will be installed on linux base os
+Pandas
+openpyxl
+boto3
+pymongo
+requests
+
+then we need to zip this and upload at s3bucket name lamda-infra-codebase
+
+commend to install the package pip install <packagename> -t .
