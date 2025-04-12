@@ -14,24 +14,24 @@ def createWalmartProductjson(df, bucket):
             product = food_wrap
             product["form"] = ["Sheets"]
             product["ProductType"] = "Food Wraps"
-            product["size"] = f'{row["Length"]}" x {row["Width"]}"'
+            product["size"] = f'{round(row["Length"],2)}" x {round(row["Width"],2)}"'
         elif row["Category"] == "CUTLERY":
             product = disposable_CUTLERY
             product["ProductType"] = "Disposable Cutlery Sets"
             product["assembledProductWidth"] = {
-                "measure": row["Width"],
+                "measure": round(row["Width"],2),
                 "unit": "in"
             }
             product["assembledProductLength"] = {
-                "measure": row["Length"],
+                "measure": round(row["Length"],2),
                 "unit": "in"
             }
             product["assembledProductHeight"] = {
-                "measure": row["Height"],
+                "measure": round(row["Height"],2),
                 "unit": "in"
             }
             product["assembledProductWeight"] = {
-                "measure": row["Alternate UOM Net Weight"],
+                "measure": round(row["Alternate UOM Net Weight"],2),
                 "unit": "lb"
             }
             product["colorCategory"] = [row["Color"]]
@@ -46,23 +46,23 @@ def createWalmartProductjson(df, bucket):
             product = paper_cups
             product["ProductType"] = "Paper Cups"
             product["assembledProductWidth"] = {
-                "measure": row["Width"],
+                "measure": round(row["Width"],2),
                 "unit": "in"
             }
             product["assembledProductLength"] = {
-                "measure": row["Length"],
+                "measure": round(row["Length"],2),
                 "unit": "in"
             }
             product["assembledProductHeight"] = {
-                "measure": row["Height"],
+                "measure": round(row["Height"],2),
                 "unit": "in"
             }
             product["assembledProductWeight"] = {
-                "measure": row["Alternate UOM Net Weight"],
+                "measure": round(row["Gross Weight"],2),
                 "unit": "lb"
             }
             product["volumeCapacity"] = {
-                "measure": row["Capacity"].replace(" OZ", ""),
+                "measure": int(row["Capacity"].replace(" OZ", "").strip()),
                 "unit": "oz"
             }
             product["colorCategory"] = [row["Color"]]
@@ -71,19 +71,19 @@ def createWalmartProductjson(df, bucket):
             product = paper_Plates
             product["ProductType"] = "Paper Plates"
             product["assembledProductWidth"] = {
-                "measure": row["Width"],
+                "measure": round(row["Width"],2),
                 "unit": "in"
             }
             product["assembledProductLength"] = {
-                "measure": row["Length"],
+                "measure": round(row["Length"],2),
                 "unit": "in"
             }
             product["assembledProductHeight"] = {
-                "measure": row["Height"],
+                "measure": round(row["Height"],2),
                 "unit": "in"
             }
             product["assembledProductWeight"] = {
-                "measure": row["Alternate UOM Net Weight"],
+                "measure": round(row["Alternate UOM Net Weight"],2),
                 "unit": "lb"
             }
             product["colorCategory"] = [row["Color"]]
@@ -91,9 +91,13 @@ def createWalmartProductjson(df, bucket):
 
         product["sku"] = f"Sku-{str(gtin)}"
         product["ProductId"] = str(gtin)
+        
         product["price"] = row.get("price", 100)
-        product["productName"] = row["Category"]
+        print(row["Color"])
+        print(row["Color"]+"-"+row["Category"])
+        product["productName"] = row["Color"]+" "+row["Category"]
         product["brand"] = row["Brand"]
+        print("1")
         product["shortDescription"] = row["Product Title - en-US"]
         product["keyFeatures"] = [
             row["Features - en-US"],
@@ -101,18 +105,21 @@ def createWalmartProductjson(df, bucket):
             row["Features - en-US2"],
             row["Features - en-US3"]
         ]
-        product["material"] = row["Material Description"]
+        product["material"] = ["Plastic","Waxed Paper","Wood","Dry Waxed Paper"]
         product["mainImageUrl"] = row["Image 1"]
         product["manufacturer"] = row["Manufacturer Name"]
+        product["manufacturerPartNumber"]=row["Material Number"]
         product["productSecondaryImageURL"] = [
             row["Image 1"],
             row["Image 2"],
-            row["Image 3"]
+            row["Image 3"],
+            row["Image 1"]
         ]
         product["netContent"] = {
             "productNetContentMeasure": row.get("Items Per Each", 1),
-            "productNetContentUnit": "each"
+            "productNetContentUnit": "Each"
         }
+        product["ShippingWeight"]=round(row.get("Gross Weight", 1.20),2)
 
         # Append the product to the products list
         products.append(product)
@@ -122,7 +129,6 @@ def createWalmartProductjson(df, bucket):
         "Items": products
     }
    
-    
     
     insert_to_walmart_mongo(json_data, bucket)
 
