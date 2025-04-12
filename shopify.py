@@ -2,6 +2,7 @@ import json
 from pymongo import MongoClient
 from bson.json_util import dumps
 from uploadImagefromUri import uploadImagefromUri
+from utlity import insert_to_shopify_mongo
 
 def createShopifyProductjson(df,bucket):
    products = []
@@ -15,7 +16,7 @@ def createShopifyProductjson(df,bucket):
          "product_type": row["Category"],
          "variants": [
              {
-              "price": 0,
+              "price": row.get("price", 100),
               "option1": "Default",
               "inventory_management": "shopify",
               "requires_shipping": True,
@@ -44,19 +45,9 @@ def createShopifyProductjson(df,bucket):
       ]
       }
       products.append(product)
-      insert_to_mongo(products,bucket)
+      insert_to_shopify_mongo(products,bucket)
       products=[]
       data = {
         "products": productjson
        }
    
-def insert_to_mongo(data,bucket):
-   client = MongoClient("mongodb://nuadmin:H9ck668ixt3!@44.211.106.255:19041/")
-   mongodb = bucket.replace("-bucket", "")
-   db = client[mongodb]
-   collection=db[mongodb+"_Configuration"]
-   document = collection.find_one()
-   collection = db[f"{mongodb}_SHOPIFY_PRODUCT"]
-   collection.insert_many(data)
-   print("Data inserted into MongoDB successfully.")
-   client.close()
