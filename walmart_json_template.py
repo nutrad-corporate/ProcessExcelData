@@ -33,7 +33,8 @@ food_wrap={
     "count": 1,
     "inventory_quantity": 10,
 	"food_wrap_type":"Wax Papers",
-	"size":""
+	"size":"",
+    "ShippingWeight":.45
 }
 
 disposable_CUTLERY={
@@ -86,7 +87,8 @@ disposable_CUTLERY={
     },
 
     "colorCategory":[],
-    "color":""
+    "color":"",
+    "ShippingWeight":.45
 
 }
 
@@ -125,6 +127,9 @@ paper_towal={
     "inventory_quantity": 10,
     "numberOfSheets":10,
     "perforated":"No",
+    "ShippingWeight":.45,
+    "paper_towel_type":"Multifold",
+    "number_of_rolls":10
    
 }
 
@@ -183,8 +188,8 @@ paper_cups={
         "measure": 0,
         "unit": "oz"
     },
-    "state_chemical_disclosure":"This product contains chemicals regulated under state and federal law"
-
+    "state_chemical_disclosure":"This product contains chemicals regulated under state and federal law",
+    "ShippingWeight":.45
 }
 
 paper_Plates={
@@ -244,5 +249,6 @@ paper_Plates={
     "diameter":{
         "measure": 10,
         "unit": "in"
-    }
+    },
+    "ShippingWeight":.45
 }
