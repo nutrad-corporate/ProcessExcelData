@@ -1,8 +1,7 @@
 import json
 from pymongo import MongoClient
 from bson.json_util import dumps
-from uploadImagefromUri import uploadImagefromUri
-from utlity import insert_to_shopify_mongo
+from utlity import insert_to_shopify_mongo,uploadImagefromUri
 
 def createShopifyProductjson(df,bucket):
    products = []

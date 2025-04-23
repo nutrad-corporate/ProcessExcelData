@@ -1,6 +1,5 @@
 import json
 from bson.json_util import dumps
-from uploadImagefromUri import uploadImagefromUri
 from utlity import insert_to_walmart_mongo, generate_gtin
 from walmart_json_template import food_wrap, disposable_CUTLERY, paper_towal, paper_cups, paper_Plates
 

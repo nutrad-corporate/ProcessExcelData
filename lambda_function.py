@@ -4,6 +4,7 @@ import pandas as pd
 from io import BytesIO
 from shopify import createShopifyProductjson
 from walmart import createWalmartProductjson
+from lazada import createLazadaProductjson
 
 s3 = boto3.client('s3')
 
@@ -29,7 +30,7 @@ def lambda_handler(event, context):
         print(df.head())  # Just print the first few rows
         createShopifyProductjson(df,bucket)
         createWalmartProductjson(df,bucket)
-        
+        createLazadaProductjson(df,bucket)
         s3.copy_object(Bucket=bucket, CopySource={'Bucket': bucket, 'Key': key}, Key=archive_key)
         s3.delete_object(Bucket=bucket, Key=key)
         print(f"File moved to archive folder: {archive_key}")
