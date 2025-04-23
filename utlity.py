@@ -13,18 +13,18 @@ def insert_to_shopify_mongo(data, bucket):
     try:
         # Connect to MongoDB
         client = MongoClient("mongodb://nuadmin:H9ck668ixt3!@44.211.106.255:19041/")
-        mongodb = bucket.replace("-bucket", "")
+        mongodb = bucket.split('-')[0]
         db = client[mongodb]
 
         # Access the configuration collection
-        collection = db[mongodb + "_Configuration"]
-        configuration = collection.find_one()
+        configcollection = db[mongodb + "_Configuration"]
+        configuration = configcollection.find_one()
         keys = set(configuration.keys())
       
         # Check if SHOPIFY_PRODUCT_COLLECTION exists
         if "SHOPIFY_PRODUCT_COLLECTION" in keys:
             print("In Shopify")
-            collection = db[f"{mongodb}_SHOPIFY_PRODUCT"]
+            collection = db[configuration["SHOPIFY_PRODUCT_COLLECTION"]]
             collection.insert_many(data)
             print("Data inserted into Shopify MongoDB successfully.")
     except Exception as e:
@@ -41,18 +41,18 @@ def insert_to_lazada_mongo(data, bucket):
     try:
         # Connect to MongoDB
         client = MongoClient("mongodb://nuadmin:H9ck668ixt3!@44.211.106.255:19041/")
-        mongodb = bucket.replace("-bucket", "")
+        mongodb =  bucket.split('-')[0]
         db = client[mongodb]
 
         # Access the configuration collection
-        collection = db[mongodb + "_Configuration"]
-        configuration = collection.find_one()
+        configcollection = db[mongodb + "_Configuration"]
+        configuration = configcollection.find_one()
         keys = set(configuration.keys())
       
         # Check if SHOPIFY_PRODUCT_COLLECTION exists
         if "LAZADA_PRODUCT_COLLECTION" in keys:
             print("In lazada")
-            collection = db[f"{mongodb}_LAZADA_PRODUCT"]
+            collection = db[configuration["LAZADA_PRODUCT_COLLECTION"]]
             collection.insert_many(data)
             print("Data inserted into lazada MongoDB successfully.")
     except Exception as e:
@@ -64,25 +64,23 @@ def insert_to_lazada_mongo(data, bucket):
             client.close()
             print("MongoDB connection closed.")
 
-
-
 def insert_to_walmart_mongo(data, bucket):
     client = None
     try:
         # Connect to MongoDB
         client = MongoClient("mongodb://nuadmin:H9ck668ixt3!@44.211.106.255:19041/")
-        mongodb = bucket.replace("-bucket", "")
+        mongodb =  bucket.split('-')[0]
         db = client[mongodb]
 
         # Access the configuration collection
-        collection = db[mongodb + "_Configuration"]
-        configuration = collection.find_one()
+        configcollection = db[mongodb + "_Configuration"]
+        configuration = configcollection.find_one()
         keys = set(configuration.keys())
 
         # Check if WALMART_PRODUCT_COLLECTION exists
         if "WALMART_PRODUCT_COLLECTION" in keys:
             print("In Walmart")
-            collection = db[f"{mongodb}_WALMART_PRODUCT"]
+            collection = db[configuration["WALMART_PRODUCT_COLLECTION"]]
             collection.insert_one(data)
             print("Data inserted into Walmart MongoDB successfully.")
     except Exception as e:
@@ -155,3 +153,4 @@ def get_image_name_from_url(image_url):
     # Extract the image name from the path
     image_name = parsed_url.path.split("/")[-1]
     return image_name
+

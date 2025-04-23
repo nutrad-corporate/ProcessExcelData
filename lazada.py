@@ -111,8 +111,6 @@ def createLazadaProductjson(df, bucket):
             product["Request"]["Product"]["Attributes"]["brand_name"] = "Pure Harvest"
         
         products.append(product)
-        #insert_to_lazada_mongo(products, bucket)
-        #products=[]
         #with open(f"lazadaJson\\lazada_products{index}{row["Category"]}.json", "w", encoding="utf-8") as f:
             #json.dump(product, f, indent=4, ensure_ascii=False)
     insert_to_lazada_mongo(products, bucket)
