@@ -98,7 +98,7 @@ def createLazadaProductjson(df, bucket):
             product["Request"]["Product"]["PrimaryCategory"] = "Food Warmers"
             product["Request"]["Product"]["Attributes"]["brand_name"] = "Benro"
         elif(row["Category"] == "CUTLERY"):
-            product["Request"]["Product"]["PrimaryCategory"] = "Knife"
+            product["Request"]["Product"]["PrimaryCategory"] = "Knives"
             product["Request"]["Product"]["Attributes"]["brand_name"] = "Fridge-To-Go"
         elif(row["Category"] == "TOWEL"):
             product["Request"]["Product"]["PrimaryCategory"] = "Towels"
