@@ -25,12 +25,12 @@ def create_mapping(input_bucket_name, file_key):
         print("S3 and Bedrock clients initialized...")
 
         # Validate event structure
-        if 'Records' not in event or not event['Records']:
-            raise KeyError("The event does not contain 'Records' or is empty.")
+        # if 'Records' not in event or not event['Records']:
+        #     raise KeyError("The event does not contain 'Records' or is empty.")
 
-        # Get the bucket and key from the event
+        # # Get the bucket and key from the event
         
-        print(f"Processing file: {file_key} from bucket: {input_bucket_name}")
+        # print(f"Processing file: {file_key} from bucket: {input_bucket_name}")
 
         # PART 1: DEFINITIONS GENERATION
         if file_key.endswith('.xlsx') or file_key.endswith('.xls'):

@@ -28,9 +28,11 @@ def lambda_handler(event, context):
         # Log DataFrame (or process as needed)
         print(f"Data from {key} in {bucket}:")
         print(df.head())  # Just print the first few rows
-        createShopifyProductjson(df,bucket)
-        createWalmartProductjson(df,bucket)
-        createLazadaProductjson(df,bucket)
+
+        if not key.statrtswith("CPG"):
+            createShopifyProductjson(df,bucket)
+            createWalmartProductjson(df,bucket)
+            createLazadaProductjson(df,bucket)
 
         create_mapping(bucket,key)
 

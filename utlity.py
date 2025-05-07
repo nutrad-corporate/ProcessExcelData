@@ -4,7 +4,10 @@ import boto3
 import requests
 from io import BytesIO
 from urllib.parse import urlparse
-from constants import AWS_ACCESS_KEY, AWS_SECRET_KEY
+import os 
+from dotenv import load_dotenv
+
+load_dotenv()
 
 
 
@@ -118,8 +121,8 @@ def uploadImagefromUri(imageurl, bucket):
     # Initialize the S3 client
     s3 = boto3.client(
         "s3",
-        aws_access_key_id=AWS_ACCESS_KEY,
-        aws_secret_access_key=AWS_SECRET_KEY,
+         aws_access_key_id=os.getenv('AWS_ACCESS_KEY'),
+         aws_secret_access_key=os.getenv('AWS_SECRET_KEY'),
     )
 
     # Check if the file already exists in the bucket
