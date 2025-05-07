@@ -29,7 +29,7 @@ def lambda_handler(event, context):
         print(f"Data from {key} in {bucket}:")
         print(df.head())  # Just print the first few rows
 
-        if not key.statrtswith("CPG"):
+        if not key.startswith("CPG"):
             createShopifyProductjson(df,bucket)
             createWalmartProductjson(df,bucket)
             createLazadaProductjson(df,bucket)
