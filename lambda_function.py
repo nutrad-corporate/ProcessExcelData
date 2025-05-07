@@ -5,7 +5,7 @@ from io import BytesIO
 from shopify import createShopifyProductjson
 from walmart import createWalmartProductjson
 from lazada import createLazadaProductjson
-
+from mapping import create_mapping
 s3 = boto3.client('s3')
 
 def lambda_handler(event, context):
@@ -17,7 +17,7 @@ def lambda_handler(event, context):
         ensure_archive_directory(bucket)
         print(bucket)
         print(key)
-      
+
         response = s3.get_object(Bucket=bucket, Key=key)
         file_content = response['Body'].read()
 
@@ -31,6 +31,9 @@ def lambda_handler(event, context):
         createShopifyProductjson(df,bucket)
         createWalmartProductjson(df,bucket)
         createLazadaProductjson(df,bucket)
+
+        create_mapping(bucket,key)
+
         s3.copy_object(Bucket=bucket, CopySource={'Bucket': bucket, 'Key': key}, Key=archive_key)
         s3.delete_object(Bucket=bucket, Key=key)
         print(f"File moved to archive folder: {archive_key}")
